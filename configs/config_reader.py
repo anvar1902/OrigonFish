@@ -10,6 +10,7 @@ class Config:
         if type_config == 0:
             # settings.json
             self.time_wait_minigame = data['time_wait_minigame']
+            self.skip_updates = data['skip_updates']
         elif type_config == 1:
             # coordinates.json
             self.coordinates = data['coordinates']

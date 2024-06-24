@@ -1,3 +1,4 @@
 {
-  "time_wait_minigame": 60
+  "time_wait_minigame": 60,
+  "skip_updates" : 0
 }
