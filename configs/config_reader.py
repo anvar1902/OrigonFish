@@ -8,9 +8,12 @@ CONFIG_DIR = "configs"
 class Config:
     def __init__(self, type_config: int, data: dict):
         if type_config == 0:
+            # settings.json
+            self.time_wait_minigame = data['time_wait_minigame']
+        elif type_config == 1:
             # coordinates.json
             self.coordinates = data['coordinates']
-        elif type_config == 1:
+        elif type_config == 2:
             # colors.json
             self.background = tuple(data['background'])
             self.cursor = tuple(data['cursor'])
