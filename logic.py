@@ -1,12 +1,19 @@
 from PIL import ImageGrab
 from pyautogui import rightClick
 import keyboard
+import logging
 import time
 import os
 
 from configs.config_reader import Config
 
-
+if not os.path.isdir("logs"): os.mkdir("logs")
+logging.basicConfig(
+                    level=logging.DEBUG,
+                    filename="logs/" + __name__.split('.')[-1] + ".log",
+                    filemode='w',
+                    format="%(asctime)s %(levelname)s %(message)s"
+                    )
 
 class OrigonFish:
     def __init__(self):
@@ -20,45 +27,51 @@ class OrigonFish:
         self.cursor_color = Config.get_config(2, 'colors').cursor
         self.target_color = Config.get_config(2, 'colors').target
         print(self.background_color, self.cursor_color, self.target_color)
-        keyboard.on_release_key("q", self.switch_Active)
         print("Все настройки успешно загружены")
+        keyboard.on_release_key('q', self.switch_Active)
         os.system("clear")
         os.system("cls")
-        keyboard.wait()
+        self.check_screen_process()
 
     def check_screen_process(self):
         t = False
         timer = 0
 
-        while self.Active:
-            c = 0
-            s = 0
+        while 1:
+            while self.Active:
+                c = 0
+                s = 0
 
-            px = ImageGrab.grab().load()
-            for cord in self.point_cords:
-                pixel = px[cord[0], cord[1]]
-                if pixel != self.target_color:
-                    c += 1
-                if pixel == self.background_color:
-                    s += 1
+                px = ImageGrab.grab().load()
+                for cord in self.point_cords:
+                    pixel = px[cord[0], cord[1]]
+                    if pixel != self.target_color:
+                        c += 1
+                    if pixel == self.background_color:
+                        s += 1
 
-            if s >= 7:
-                if c == 10:
+                if s >= 7:
+                    if c == 10:
+                        rightClick(self.point_cords[5])
+                        time.sleep(0.17)
+                    if t:
+                        t = False
+                        timer = 0
+                elif t == False or round(time.time()) - timer >= self.time_wait_minigame:
                     rightClick(self.point_cords[5])
-                    time.sleep(0.17)
-                if t:
-                    t = False
-                    timer = 0
-            elif t == False or round(time.time()) - timer >= self.time_wait_minigame:
-                rightClick(self.point_cords[5])
-                t = True
-                timer = round(time.time())
+                    t = True
+                    timer = round(time.time())
 
     def switch_Active(self, ok):
         if not self.Active:
             self.Active = True
             print(self.Active)
-            self.check_screen_process()
+            #return self.check_screen_process()
         else:
             self.Active = False
             print(self.Active)
+
+if __name__ == "__main__":
+    main_prog = OrigonFish()
+    #keyboard.on_release_key("q", main_prog.switch_Active)
+    #keyboard.wait()

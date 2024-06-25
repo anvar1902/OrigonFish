@@ -1,10 +1,16 @@
+import logging
 import os
-import glob
 import json
 import codecs
-from shutil import copy, copyfile
+from shutil import copy
 
-
+if not os.path.isdir("logs"): os.mkdir("logs")
+logging.basicConfig(
+                    level=logging.DEBUG,
+                    filename="logs/" + __name__.split('.')[-1] + ".log",
+                    filemode='w',
+                    format="%(asctime)s %(levelname)s %(message)s"
+                    )
 
 class Config:
     def __init__(self, type_config: int, data: dict):
@@ -26,7 +32,7 @@ class Config:
         this_dir = os.path.dirname(os.path.abspath(__file__))
         CONFIG_DIR = "configs"
         if not os.path.isdir(CONFIG_DIR): os.mkdir(CONFIG_DIR)
-        for jf in os.listdir():
+        for jf in os.listdir(this_dir):
             if jf.endswith('.json'):
                 if not os.path.exists(os.path.join(CONFIG_DIR, jf)):
                     copy(os.path.join(this_dir, jf), os.path.join(CONFIG_DIR, jf))
