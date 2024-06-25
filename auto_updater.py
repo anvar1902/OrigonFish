@@ -1,17 +1,18 @@
-from clint.textui import progress
+import wget
 import requests
 import os
 
 class Updater:
-    def __init__(self, CURRECT_VERSION_str : str, repository_url : str, program_name : str, updater_name : str):
-        self.CURRECT_VERSION_str = CURRECT_VERSION_str
-        self.CURRECT_VERSION = list(map(int, CURRECT_VERSION_str.split('.')))
+    def __init__(self, current_version_str: str, repository_url: str, program_name: str, updater_name: str, updater_tag: str):
+        self.CURRECT_VERSION_str = current_version_str
+        self.CURRECT_VERSION = list(map(int, current_version_str.split('.')))
         self.LATEST_VERSION_str = None
         self.LATEST_VERSION = None
         self.VERSION_LEN = 3
         self.URL = repository_url
         self.PROGRAM_NAME = program_name
         self.UPDATER_NAME = updater_name
+        self.UPDATER_TAG = updater_tag
         print(f"Текущая версия программы: {self.CURRECT_VERSION_str}")
 
     def check_new_version(self):
@@ -45,30 +46,20 @@ class Updater:
     def update_program(self):
         os.system("cls")
         os.system("clear")
-        print("Начата установка новой версии")
+        print("Начата установка новой версии...")
         try:
-            print("Скачивание Апдейтера")
-            r = requests.get(self.URL + f"download/updater/updater.exe", stream=True)
+            print("Скачивание Апдейтера...")
+            wget.download(self.URL + f"download/{self.UPDATER_TAG}/{self.UPDATER_NAME}")
+            print('Апдейтер успешно скачан\nПередаю инструкции Апдейтеру...')
 
-            if r.status_code == 200 or 1:
-                total_length = int(r.headers.get('content-length'))
-                with open(self.UPDATER_NAME, 'wb') as file:
-                    for chunk in progress.bar(r.iter_content(chunk_size=1024),
-                                              label='Скачивание Апдейтера',
-                                              width=50,
-                                              expected_size=(total_length / 1024) + 1):
-                        if chunk:
-                            file.write(chunk)
-                            file.flush()
+            if os.path.exists("updater_settings.txt"): os.remove("updater_settings.txt")
+            with open("updater_settings.txt", 'w') as file:
+                lines = [self.LATEST_VERSION_str, self.URL, self.PROGRAM_NAME]
+                file.writelines("%s\n" % line for line in lines)
 
-                print('Апдейтер успешно скачан\nЗапускаю Апдейтер')
-                with open("latest_ver.txt", 'w') as file:
-                    lines = [self.LATEST_VERSION_str, self.URL, self.PROGRAM_NAME]
-                    file.writelines("%s\n" % line for line in lines)
-                os.startfile(self.UPDATER_NAME)
-                os.close(1)
-            else:
-                print('Не удалось скачать Апдейтер\nОтменяю обновление программы пожалуйста обратитесь к разработчику за помощью либо обновите програму сами')
+            print("Запускаю Апдейтер...")
+            os.startfile(self.UPDATER_NAME)
+            os.close(1)
         except Exception as Error:
             print("Ошибка установки новой версии: \n", Error)
-            print("Обратитесь за помощью к разработчику")
+            print("Пожалуйста обратитесь к разработчику за помощью либо обновите програму сами")
