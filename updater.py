@@ -16,6 +16,7 @@ def main():
         URL = data[1].replace("\n", "")
         PROGRAM_NAME = data[2].replace("\n", "")
 
+        os.remove(PROGRAM_NAME)
         wget.download(URL + f"/releases/download/{LATEST_VERSION}/{PROGRAM_NAME}")
         print("Новая версия успешно установлена запуск приложения через 5 секунд...")
 

@@ -2,8 +2,16 @@ import wget
 import requests
 import os
 
+
+
 class Updater:
-    def __init__(self, current_version_str: str, repository_url: str, program_name: str, updater_name: str, updater_tag: str):
+    def __init__(self,
+                current_version_str: str,
+                repository_url: str,
+                program_name: str = "main.exe",
+                updater_name: str = "updater.exe",
+                updater_repository: str = "https://github.com/anvar1902/Updater"
+                ):
         self.CURRECT_VERSION_str = current_version_str
         self.CURRECT_VERSION = list(map(int, current_version_str.split('.')))
         self.LATEST_VERSION_str = None
@@ -12,7 +20,8 @@ class Updater:
         self.URL = repository_url
         self.PROGRAM_NAME = program_name
         self.UPDATER_NAME = updater_name
-        self.UPDATER_TAG = updater_tag
+        self.UPDATER_REPOSITORY = updater_repository
+        if os.path.exists(self.UPDATER_NAME): os.remove(self.UPDATER_NAME)
         print(f"Текущая версия программы: {self.CURRECT_VERSION_str}")
 
     def check_new_version(self):
@@ -47,11 +56,19 @@ class Updater:
         os.system("cls")
         os.system("clear")
         print("Начата установка новой версии...")
-        try:
-            print("Скачивание Апдейтера...")
-            wget.download(self.URL + f"download/{self.UPDATER_TAG}/{self.UPDATER_NAME}")
-            print('Апдейтер успешно скачан\nПередаю инструкции Апдейтеру...')
 
+        try:
+            print("Получение последней версии Апдейтера...")
+            latest_updater_url = requests.get(self.UPDATER_REPOSITORY + "/releases/latest").url
+            latest_updater_ver = latest_updater_url.replace("https://github.com/anvar1902/OrigonFish/releases/tag/", "")
+            latest_updater_download_url = self.UPDATER_REPOSITORY.replace("tag", "download")
+            print(f"Последняя версия Апдейтера: {latest_updater_ver}")
+
+            print("Скачивание Апдейтера...")
+            wget.download(latest_updater_download_url + f"/{self.UPDATER_NAME}")
+            print(f"Апдейтер успешно скачан")
+
+            print("Передаю инструкции Апдейтеру...")
             if os.path.exists("updater_settings.txt"): os.remove("updater_settings.txt")
             with open("updater_settings.txt", 'w') as file:
                 lines = [self.LATEST_VERSION_str, self.URL, self.PROGRAM_NAME]
