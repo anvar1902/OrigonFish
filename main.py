@@ -20,9 +20,10 @@ URL = "https://github.com/anvar1902/OrigonFish"
 PROGRAM_NAME = "OrigonFish.exe"
 
 if __name__ == "__main__":
+    Config().config_totality_fix()
     if not os.path.isdir("logs"): os.mkdir("logs")
     AutoUpdater = Updater(CURRECT_VERSION, URL, PROGRAM_NAME)
-    if not Config.get_config(0, "settings").skip_updates:
-        AutoUpdater.check_new_version()
+    #if not Config.get_config("settings").skip_updates:
+    #    AutoUpdater.check_new_version()
 
-    main_prog = OrigonFish()
+    #main_prog = OrigonFish()

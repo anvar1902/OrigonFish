@@ -19,13 +19,13 @@ class OrigonFish:
     def __init__(self):
         print("Загружаем настройки...")
         self.Active = False
-        self.time_wait_minigame = Config.get_config(0, 'settings').time_wait_minigame
+        self.time_wait_minigame = Config.get_config('settings', 'time_wait_minigame')
         print(self.time_wait_minigame)
-        self.point_cords = Config.get_config(1, 'coordinates').coordinates
+        self.point_cords = Config.get_config('coordinates', 'coordinates')
         print(self.point_cords)
-        self.background_color = Config.get_config(2, 'colors').background
-        self.cursor_color = Config.get_config(2, 'colors').cursor
-        self.target_color = Config.get_config(2, 'colors').target
+        self.background_color = Config.get_config('colors', 'background')
+        self.cursor_color = Config.get_config('colors', 'cursor')
+        self.target_color = Config.get_config('colors', 'target')
         print(self.background_color, self.cursor_color, self.target_color)
         print("Все настройки успешно загружены")
         keyboard.on_release_key('q', self.switch_Active)
