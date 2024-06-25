@@ -73,5 +73,3 @@ class OrigonFish:
 
 if __name__ == "__main__":
     main_prog = OrigonFish()
-    #keyboard.on_release_key("q", main_prog.switch_Active)
-    #keyboard.wait()
