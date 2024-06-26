@@ -45,15 +45,17 @@ class OrigonFish:
 
             keyboard.on_release_key('q', self.switch_Active)
             logic_logger.debug("Клавиша q успешно привязана к функции switch_Active")
-            print("Все настройки успешно загружены")
-            logic_logger.info("Все настройки успешно загружены")
 
         except Exception as Error:
             print("Ошибка при загрузки настроек: \n", Error)
             print("Обратитесь за помощью к разработчику")
-            logging.critical("Критическая ошибка при загрузке настроек", exc_info=True)
+            logic_logger.critical("Критическая ошибка при загрузке настроек", exc_info=True)
             time.sleep(5)
             exit()
+
+        else:
+            print("Все настройки успешно загружены")
+            logic_logger.info("Все настройки успешно загружены")
 
         time.sleep(1)
         os.system("clear")
@@ -63,6 +65,7 @@ class OrigonFish:
     def check_screen_process(self):
         t = False
         timer = 0
+        logic_logger.debug("Запуск основной части программы")
 
         while 1:
             while self.Active:
@@ -86,7 +89,7 @@ class OrigonFish:
                     time.sleep(5)
                     exit()
                 else:
-                    logic_logger.debug("Закончилась проверка пикселей")
+                    logic_logger.debug("Успешно закончилась проверка пикселей")
 
 
                 try:
