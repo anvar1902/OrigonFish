@@ -16,18 +16,18 @@ log_handler.setFormatter(log_formatter)
 main_logger.addHandler(log_handler)
 main_logger.debug("Логгер запущен")
 
+all_log_handler = logging.FileHandler("logs/all.log", mode='w')
 logging.basicConfig(
-                    level=logging.DEBUG,
-                    filename="logs/all.log",
-                    filemode='w',
-                    format="%(asctime)s %(levelname)s %(message)s"
+                    level=logging.INFO,
+                    format="%(asctime)s %(levelname)s %(message)s",
+                    handlers=[all_log_handler,]
                     )
 
 
 CURRECT_VERSION = "0.0.1"
 URL = "https://github.com/anvar1902/OrigonFish"
 PROGRAM_NAME = "OrigonFish.exe"
-main_logger.debug("Выставлены начальные настройки")
+main_logger.debug("Инициализация начальных настроек")
 main_logger.debug((CURRECT_VERSION, URL, PROGRAM_NAME))
 
 conf = Config()
