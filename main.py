@@ -24,7 +24,7 @@ logging.basicConfig(
                     )
 
 
-CURRECT_VERSION = "1.1.3"
+CURRECT_VERSION = "1.1.4"
 URL = "https://github.com/anvar1902/OrigonFish"
 PROGRAM_NAME = "OrigonFish.exe"
 main_logger.debug("Инициализация начальных настроек")

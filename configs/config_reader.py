@@ -55,7 +55,7 @@ class Config:
                             except Exception as Error:
                                 print(f"Критическая ошибка при открытии конфигов: \n{Error}")
                                 config_logger.critical("Критическая ошибка при открытие конфигов", exc_info=True)
-                                exit()
+                                os.close(1)
 
                             for jkey in data:
                                     if isinstance(damaged_data[jkey], type(data[jkey])):
@@ -84,7 +84,7 @@ class Config:
                                 print(f"Критическая ошибка при пересоздании конфига: \n{Error}")
                                 config_logger.critical("Критическая ошибка при пересоздании конфига", exc_info=True)
                                 time.sleep(5)
-                                exit()
+                                os.close(1)
 
                     if not fixed_config:
                         print(f"Конфиг {jf} полностью цел")
@@ -100,7 +100,7 @@ class Config:
             print("Сообщите об ошибке разработчику")
             config_logger.error("Критическая ошибка проверки целостности конфигов", exc_info=True)
             time.sleep(5)
-            exit()
+            os.close(1)
 
     def get_config(self, config_file: str, key):
         while 1:

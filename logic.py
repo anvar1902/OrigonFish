@@ -51,7 +51,7 @@ class OrigonFish:
             print("Обратитесь за помощью к разработчику")
             logic_logger.critical("Критическая ошибка при загрузке настроек", exc_info=True)
             time.sleep(5)
-            exit()
+            os.close(1)
 
         else:
             print("Все настройки успешно загружены")
@@ -87,7 +87,7 @@ class OrigonFish:
                     print("Обратитесь за помощью к разработчику")
                     logic_logger.error("Критическая ошибка при проверке пикселей", exc_info=True)
                     time.sleep(5)
-                    exit()
+                    os.close(1)
                 else:
                     logic_logger.debug("Успешно закончилась проверка пикселей")
 
@@ -117,7 +117,7 @@ class OrigonFish:
                     print(f"Критическая ошибка при проверке данных: \n{Error}")
                     print("Обратитесь за помощью к разработчику")
                     time.sleep(5)
-                    exit()
+                    os.close(1)
                 else:
                     logic_logger.debug("Проверка данных успешно завершилась")
 
