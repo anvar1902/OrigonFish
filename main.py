@@ -5,6 +5,7 @@ from logic import OrigonFish
 from auto_updater import Updater
 from configs.config_reader import Config
 
+
 if not os.path.isdir("logs"): os.mkdir("logs")
 main_logger = logging.getLogger(__name__.split('.')[-1])
 main_logger.setLevel(logging.DEBUG)
@@ -24,7 +25,7 @@ logging.basicConfig(
                     )
 
 
-CURRECT_VERSION = "1.1.4"
+CURRECT_VERSION = "1.2.0"
 URL = "https://github.com/anvar1902/OrigonFish"
 PROGRAM_NAME = "OrigonFish.exe"
 main_logger.debug("Инициализация начальных настроек")
